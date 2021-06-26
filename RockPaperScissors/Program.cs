@@ -13,7 +13,7 @@ namespace RockPaperScissors
 			Scissors
 		}
 
-		private static readonly Dictionary<Move, List<Move>> moveDefeats = new Dictionary<Move, List<Move>>() 
+		private static readonly Dictionary<Move, List<Move>> moves = new Dictionary<Move, List<Move>>() 
 		{
 			{ 
 				Move.Rock, new List<Move>()
@@ -42,36 +42,52 @@ namespace RockPaperScissors
 			Move[] availableMoves = Enum.GetValues<Move>();
 			string[] availableMovesNames = Enum.GetNames<Move>();
 
-			Console.Write("Available Moves: ");
-			Console.WriteLine(string.Join(", ", availableMovesNames));
-
-			Console.WriteLine();
-
-			Console.Write("Please Pick A Move: ");
-			string input = Console.ReadLine();
-
-			while (availableMovesNames.Contains(input, StringComparer.OrdinalIgnoreCase) == false)
+			while (true)
 			{
-				Console.WriteLine("Move Does Not Exist!");
-				input = Console.ReadLine();
-			}
+				Console.Clear();
 
-			Move playerMove = Enum.Parse<Move>(input, true);
-			Move aiMove = availableMoves[random.Next(0, availableMoves.Length)];
+				Console.Write("Available Moves: ");
+				Console.WriteLine(string.Join(", ", availableMovesNames));
 
-			Console.Write("AI Has Chosen: ");
-			Console.WriteLine(aiMove.ToString());
+				Console.WriteLine();
 
-			Console.Write("This Defeats: ");
-			Console.WriteLine(string.Join(", ", moveDefeats[aiMove]));
+				Console.Write("Player 1 Move: ");
+				string input = Console.ReadLine();
 
-			if (playerMove == aiMove)
-			{
-				// Draw
-			}
-			else 
-			{
-				// Victory for someone
+				while (availableMovesNames.Contains(input, StringComparer.OrdinalIgnoreCase) == false)
+				{
+					Console.Write("Doesn't Exist! Pick A Move: ");
+					input = Console.ReadLine();
+				}
+
+				Console.WriteLine();
+
+				Move playerOneMove = Enum.Parse<Move>(input, true);
+				Move playerTwoMove = availableMoves[random.Next(0, availableMoves.Length)];
+
+				Console.Write("Player 2 Move: ");
+				Console.WriteLine(playerTwoMove.ToString());
+
+				if (playerOneMove == playerTwoMove)
+				{
+					Console.WriteLine("Round Draw!");
+				}
+				else
+				{
+					if (moves[playerOneMove].Contains(playerTwoMove))
+					{
+						Console.WriteLine("Player 1 Wins!");
+					}
+					else if (moves[playerTwoMove].Contains(playerOneMove)) 
+					{
+						Console.WriteLine("Player 2 Wins!");
+					}
+				}
+
+				Console.WriteLine();
+				Console.WriteLine("Round End!");
+
+				Console.ReadKey();
 			}
 		}
 	}
