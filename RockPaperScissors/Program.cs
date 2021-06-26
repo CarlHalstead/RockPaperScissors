@@ -10,7 +10,9 @@ namespace RockPaperScissors
 		{
 			Rock,
 			Paper,
-			Scissors
+			Scissors,
+			Lizard,
+			Spock
 		}
 
 		private static readonly Dictionary<Move, List<Move>> moves = new Dictionary<Move, List<Move>>() 
@@ -18,21 +20,38 @@ namespace RockPaperScissors
 			{ 
 				Move.Rock, new List<Move>()
 				{ 
-					Move.Scissors 
+					Move.Scissors,
+					Move.Lizard
 				}
 			},
 			{
 				Move.Paper, new List<Move>()
 				{
-					Move.Rock
+					Move.Rock,
+					Move.Spock
 				}
 			},
 			{
 				Move.Scissors, new List<Move>()
 				{
-					Move.Paper
+					Move.Paper,
+					Move.Lizard
 				}
 			},
+			{
+				Move.Lizard, new List<Move>()
+				{
+					Move.Paper,
+					Move.Spock
+				}
+			},
+			{
+				Move.Spock, new List<Move>()
+				{
+					Move.Rock,
+					Move.Scissors
+				}
+			}
 		};
 
 		private static readonly Random random = new Random();
@@ -59,8 +78,6 @@ namespace RockPaperScissors
 					Console.Write("Doesn't Exist! Pick A Move: ");
 					input = Console.ReadLine();
 				}
-
-				Console.WriteLine();
 
 				Move playerOneMove = Enum.Parse<Move>(input, true);
 				Move playerTwoMove = availableMoves[random.Next(0, availableMoves.Length)];
